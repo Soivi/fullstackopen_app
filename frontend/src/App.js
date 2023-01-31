@@ -57,6 +57,12 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       })
+      .catch(error => {
+        setNotificationMessage({text: error.response.data.error,type: 'error'})
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)
+      })
 
     } else {
       if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
@@ -70,11 +76,10 @@ const App = () => {
             setNewName('')
             setNewNumber('')
         }).catch(error => {
-          setNotificationMessage({text: `Information of ${newName} has already been removed from server`,type: 'error'})
-          setTimeout(() => {
-            setNotificationMessage(null)
-          }, 5000)
-          setPersons(persons.filter(p => p.name !== newName))
+          setNotificationMessage({text: error.response.data.error,type: 'error'})
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000)
         })
       }
     }
